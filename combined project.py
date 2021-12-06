@@ -10,7 +10,7 @@ import os
 # 자취하는여고생님이 로비에 참가하셨습니다.
 
 
-api_key = os.environ["RIOTAPI"]
+api_key = os.environ['RIOTAPI']
 
 
 def nickname_separator(names_):
@@ -343,5 +343,5 @@ async def dodge(ctx, *, msg):
 
 
 
-access_token = os.environ["BOT_TOKEN"]
+access_token = os.environ['BOT_TOKEN']
 bot.run(access_token)
