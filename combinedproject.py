@@ -202,7 +202,28 @@ async def on_ready():
 async def Hello(ctx):
     await ctx.send("{} 반갑습니다.".format(ctx.author.mention))
 
+    
+@bot.command()
+async def help(ctx):
+    help_ = """
+    픽창 예시 : 
+    Hide on bush님이 로비에 참가하셨습니다.
+    강자석님이 로비에 참가하셨습니다.
+    강찬밥님이 로비에 참가하셨습니다.
+    고수달님이 로비에 참가하셨습니다.
+    암살럭스님이 로비에 참가하셨습니다.
 
+
+    !Hello, !안녕, !ㅎㅇ, !인사 : 인사를 해줍니다.
+    !total, !전체승률, !승률 (소환사명 혹은 픽창에서 드래그) : 각 소환사별 전체 승률
+    !kda, !킬뎃, !킬데스 (소환사명 혹은 픽창에서 드래그) : 각 소환사별 최근 10판 kda
+    !recent_win, !최근, !최근전적, !열판 : 각 소환사별 최근 10판 승률
+    !every, !all, !모두, !전부 : 각 소환사별 위 셋 정보
+    !dodge, !닷지 : !every 에 나오는 모든 정보와 이번 게임에서의 승률, 닷지 추천
+    """
+    await ctx.send(help_)
+    
+    
 @bot.command(aliases=["전체승률", "승률"])
 async def total(ctx, *, msg):
     summoner_ids = []
