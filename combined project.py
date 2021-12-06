@@ -1,6 +1,7 @@
 import requests
 from urllib import parse
 from discord.ext import commands
+import os
 
 # 욕안하면사람아님님이 로비에 참가하셨습니다.
 # 내이름은메이님이 로비에 참가하셨습니다.
@@ -342,5 +343,5 @@ async def dodge(ctx, *, msg):
 
 
 
-
-bot.run("")
+access_token = os.environ["BOT_TOKEN"]
+bot.run(access_token)
