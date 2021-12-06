@@ -1,1 +1,1 @@
-worker: python combined project.py
+worker: python combinedproject.py
