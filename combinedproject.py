@@ -203,8 +203,8 @@ async def Hello(ctx):
     await ctx.send("{} 반갑습니다.".format(ctx.author.mention))
 
     
-@bot.command()
-async def help(ctx):
+@bot.command(aliases=["help"])
+async def 도움(ctx):
     help_ = """
     픽창 예시 : 
     Hide on bush님이 로비에 참가하셨습니다.
