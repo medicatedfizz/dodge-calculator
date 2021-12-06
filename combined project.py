@@ -10,7 +10,7 @@ import os
 # 자취하는여고생님이 로비에 참가하셨습니다.
 
 
-api_key = ""
+api_key = os.environ["RIOTAPI"]
 
 
 def nickname_separator(names_):
