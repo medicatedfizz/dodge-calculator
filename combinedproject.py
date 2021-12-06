@@ -141,9 +141,11 @@ def kda_score_translator(kda_10):
             elif kdas <= 1.5:
                 kda_to_winrate = 25
             elif kdas <= 2.5:
-                kda_to_winrate = 35
+                kda_to_winrate = 40
             elif kdas <= 3:
                 kda_to_winrate = 50
+            elif kdas <= 4:
+                kda_to_winrate = 60
             elif kdas <= 5:
                 kda_to_winrate = 70
             elif kdas > 5:
