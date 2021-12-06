@@ -335,10 +335,19 @@ async def dodge(ctx, *, msg):
         match_kdas.append(match_kda)
     match_kdas_to_winrate = kda_score_translator(match_kdas)
     dodge_info = dodge_calculator(summoner_tot_winrates, match_kdas_to_winrate, match_winrates)
+    out = "소환사명 | 전체승률\n"
+    for (a, b) in zip(summonernames, summoner_tot_winrates):
+        out += "{} | {}\n".format(a, b)
+    out += "\n소환사명 | 최근승률(최대 10판)\n"
+    for (c, d) in zip(summonernames, match_winrates):
+        out += "{} | {}\n".format(c, d)
+    out += "\n소환사명 | 최근KDA(최대 10판)\n"
+    for (e, f) in zip(summonernames, match_kdas):
+        out += "{} | {}\n".format(e, f)
     if dodge_info < 50:
-        out = "닷지를 추천드립니다. 승률: {}".format(dodge_info)
+        out += "\n닷지를 추천드립니다. 승률: {}".format(dodge_info)
     else:
-        out = "승률이 50퍼센트 이상입니다. 승률: {}".format(dodge_info)
+        out += "\n승률이 50퍼센트 이상입니다. 승률: {}".format(dodge_info)
     await ctx.send(out)
 
 
