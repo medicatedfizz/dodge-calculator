@@ -153,7 +153,7 @@ def kda_score_translator(kda_10):
             elif kdas <= 5:
                 kda_to_winrate = 70
             elif kdas > 5:
-                kda_to_winrate = 1
+                kda_to_winrate = 100
         elif kdas == "Perfect":
             kda_to_winrate = 100
         else:
