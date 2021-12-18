@@ -171,11 +171,8 @@ def dodge_calculator(tot_win, kda_10, winrate_10):
         elif isinstance(p, str):
             winrate_10_sum += 50
     avg_tot_win = tot_win_sum/len(tot_win)
-    print(avg_tot_win)
     avg_winrate_10 = winrate_10_sum/len(winrate_10)
-    print(avg_winrate_10)
     avg_kda_10 = sum(kda_10)/len(kda_10)
-    print(avg_kda_10)
     dodge_winrate = 0.5*avg_tot_win + 0.25*avg_winrate_10 + 0.25*avg_kda_10
     print(f"이번 판의 승률은 {dodge_winrate}입니다.")
     if dodge_winrate < 50:
