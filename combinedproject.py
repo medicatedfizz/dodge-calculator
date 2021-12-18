@@ -7,7 +7,7 @@ import os
 api_key = os.environ['RIOTAPI']
 
 
-def nickname_separator(names_):
+def nickname_separator(names_):             # 닉네임들을 분리해줌
     summoner_nicknames = []
     for a in names_:
         b = a.replace("님이 로비에 참가하셨습니다.", "")
@@ -15,7 +15,7 @@ def nickname_separator(names_):
     return summoner_nicknames   # list
 
 
-def encrypt_id(APIKEY, summonerName):
+def encrypt_id(APIKEY, summonerName):       # Encrypted id, Puuid 두개의 정보를 줌
     summonername_url = parse.quote(summonerName)
     APIURL = "https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + summonername_url
     headers = {
@@ -31,7 +31,7 @@ def encrypt_id(APIKEY, summonerName):
     return data["id"], data["puuid"]   # str
 
 
-def total_winrate(APIKEY, id_lol):
+def total_winrate(APIKEY, id_lol):          # 전체승률
     urlid = parse.quote(id_lol)
     APIURL = "https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/" + urlid
     headers = {
@@ -48,7 +48,7 @@ def total_winrate(APIKEY, id_lol):
     for game in data:
         if game["queueType"] == "RANKED_SOLO_5x5":
             data_dic = game
-    if data_dic is None:
+    if data_dic is None:                 # 솔로 랭크를 아예 진행하지 않은 경우, 아예 해당 데이터가 존재하지 않음
         data_dic = "솔로 랭크 전적이 없습니다."
         return data_dic
     tot_winrate = data_dic["wins"]/(data_dic["wins"] + data_dic["losses"])
@@ -58,7 +58,7 @@ def total_winrate(APIKEY, id_lol):
 def match_encrypted(APIKEY, puuid_lol):
     puuid_url = parse.quote(puuid_lol)
     APIURL = "https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/" + puuid_url + \
-             "/ids?type=ranked&start=0&count=20"
+             "/ids?type=ranked&start=0&count=20"                    # 랭크 게임만, 최근 20판 받아오기
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
                       "(KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36",
@@ -82,7 +82,7 @@ def recent_match_info(APIKEY, match_list, summonerId):
     win_num = 0
     ranked_solo_count = 0
     no_matches = "최근 전적이 없습니다."
-    for j in match_list:
+    for j in match_list:                    # match_list 안의 20판 모두 고려
         match_info_url = parse.quote(j)
         APIURL = "https://asia.api.riotgames.com/lol/match/v5/matches/" + match_info_url
         headers = {
@@ -97,17 +97,17 @@ def recent_match_info(APIKEY, match_list, summonerId):
         data = res.json()
         data_get = data.get("info")
         try:
-            if data_get["queueId"] == 420:
+            if data_get["queueId"] == 420:          # 솔로 랭크인 경우, "queueId" 가 420, 자유랭크는 440
                 solorank_info.append(data_get)
                 ranked_solo_count += 1
-            if ranked_solo_count >= 10:
+            if ranked_solo_count >= 10:             # 솔로 랭크가 10판 이상
                 break
         except TypeError:           # 가끔 오류인지 data_get["queueId"] 인덱싱이 실패해서 try except를 씀
             continue
-    if ranked_solo_count == 0:
+    if ranked_solo_count == 0:      # 솔로 랭크가 최근 랭크 20판 중 한판도 없는 경우
         return no_matches, no_matches
     for round_num in solorank_info:
-        for k in range(10):
+        for k in range(10):         # 게임 진행한 10명 중 검색한 소환사 찾기
             if round_num["participants"][k]["summonerId"] == summonerId:
                 data_wins.append(round_num["participants"][k]["win"])
                 data_kills.append(round_num["participants"][k]["kills"])
@@ -117,16 +117,16 @@ def recent_match_info(APIKEY, match_list, summonerId):
         try:
             kda_calculation = round((data_kills[m] + data_assists[m])/data_deaths[m], 2)
             kda_list.append(kda_calculation)
-        except ZeroDivisionError:
+        except ZeroDivisionError:   # death = 0
             kda_calculation = "Perfect"
             kda_list.append(kda_calculation)
-    print(kda_list)
-    for n in data_wins:
-        if n:
+    print(kda_list)                 # 닷지 계산기에는 출력되지 않지만 정확성 확인 + 진행상황 확인 위해 넣음
+    for n in data_wins:             # win 은 True 혹은 False 로 나옴
+        if n:                       # True 인 경우 승리
             win_num += 1
     try:
         recent_10_kda_tot = round((sum(data_kills) + sum(data_assists))/sum(data_deaths), 2)
-    except ZeroDivisionError:
+    except ZeroDivisionError:       # death = 0
         recent_10_kda_tot = "Perfect"
     return round((win_num/ranked_solo_count)*100, 2), recent_10_kda_tot  # tuple, 내부는 int
 
